@@ -1,0 +1,11 @@
+Compiler Design/
+*.pdf
+*.aux
+*.bbl
+*.blg
+*.log
+*.toc
+*.nav
+*.out
+*.snm
+*.synctex.gz
