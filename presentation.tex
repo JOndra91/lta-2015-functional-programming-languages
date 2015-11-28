@@ -19,13 +19,58 @@
 
 \frame{\maketitle}
 
-\begin{frame} \frametitle{Frametitle}
+\begin{frame} \frametitle{Introduction}
 
+% mention that the list is minimal, it can contain many more items
+Imperative languages
   \begin{itemize}
-    \item Item 1
-    \item Item 2
+    \item statements
+    \item expressions
   \end{itemize}
 
+\vspace{5pt}
+% note this is true in case of purely functional languages only.
+Functional languages
+  \begin{itemize}
+      \item expressions
+  \end{itemize}
+
+\vspace{10pt}
+There is no statement-defined control flow nor global state!
+% say how is the computation performed then...
 \end{frame}
+
+\begin{frame} \frametitle{Basic constructs [1/2]}
+  Functions are first-class citizens.
+  \begin{itemize}
+      \item They can be passed around as arguments,
+      \item partially applied using \textit{curryfication},
+      \item or unnamed, so called \textit{anonymous} or $\lambda$-functions.
+  \end{itemize}
+
+  \vspace{10pt}
+  Curryfication concept
+  % typewriting TODO
+  % animations are welcome
+  % comment on the need of right-associativity and how it works in general.
+  $(a_{1} \times a_{2} \times \ldots \times a_{n}) \to r$
+  vs
+  $a_{1} \to a_{2} \to \ldots \to a_{n} \to r$
+
+  % for example.
+  \vspace{5pt}
+  % even a constant value is a function.
+  In Haskell there are only single parameter returning functions.
+\end{frame}
+
+\begin{frame} \frametitle{2/2}
+
+\end{frame}
+
+\begin{frame} \frametitle{Polymorphism}
+  
+
+\end{frame}
+
 
 \end{document}
