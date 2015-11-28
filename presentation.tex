@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{times}
 \usepackage[T1]{fontenc}
+\usepackage{listings}
 
 \mode<presentation>
 {
@@ -63,14 +64,72 @@ There is no statement-defined control flow nor global state!
   In Haskell there are only single parameter returning functions.
 \end{frame}
 
-\begin{frame} \frametitle{2/2}
+\begin{frame} \frametitle{Basic constructs [2/2]}
 
 \end{frame}
 
-\begin{frame} \frametitle{Polymorphism}
-  
+\defverbatim[colored]\fplus{
+\begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+plus :: Int -> Int -> Int
+plus = (+)
+\end{lstlisting}
+}
+
+\begin{frame} \frametitle{Type system}
+  Functional languages are mostly strongly, implitly typed.
+
+  \vspace{5pt}
+  Each function has type, we can explicitly define the type by providing the
+  type signature or let the compiler deduce the type by performing the
+  \textit{type inference}.
+  \fplus
+
+  There are various type system that support type inference. For example
+  the \textit{Hindley-Milner-Damas} type system (derivation used in Haskell).
 
 \end{frame}
 
+\begin{frame} \frametitle{Type inference}
+
+\end{frame}
+
+\defverbatim[colored]\fpolylist{
+\begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+length :: [a] -> Int
+length [] = 0
+length (x:xs) = 1 + length xs
+\end{lstlisting}}
+
+\defverbatim[colored]\fpolyfold{
+\begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+length :: Foldable t => t a -> Int
+length  = foldr (const +1) 0
+\end{lstlisting}}
+
+\defverbatim[colored]\fpolyrankn{
+\begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+addLength :: (forall c. c -> Int) -> [b]
+  -> [a] -> Int
+addLength f a b = f a + f b
+\end{lstlisting}}
+
+\begin{frame} \frametitle{Polymorphism [1/2]}
+Such type systems often support parametric polymorphism.
+\fpolylist
+
+Polymorphic parameters could be constrained using type-classes.
+\fpolyfold
+\end{frame}
+
+\begin{frame} \frametitle{Polymorphism [2/2]}
+  How is appropriate implementation selected...
+
+  Some languages introduced higher rank polymorphism.
+  \fpolyrankn
+\end{frame}
+
+\begin{frame} \frametitle{Thank you slide}
+  Thank you, it was fun on a bun.
+\end{frame}
 
 \end{document}
