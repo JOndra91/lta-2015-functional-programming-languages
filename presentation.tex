@@ -5,6 +5,7 @@
 \usepackage{times}
 \usepackage[T1]{fontenc}
 \usepackage{listings}
+\usepackage{color}
 
 \mode<presentation>
 {
@@ -15,6 +16,16 @@
   \institute{Faculty of Information Technology, Brno University of Technology}
   \date{\today}
 }
+
+% Theme tweaks
+\usecolortheme{rose}
+\useinnertheme[shadow]{rounded}
+\usecolortheme{dolphin}
+
+% Custom commands
+\newcommand{\vpad}{\vspace{5pt}}
+\newcommand{\vPad}{\vspace{10pt}}
+\newcommand{\vPAD}{\vspace{15pt}}
 
 \begin{document}
 
@@ -29,43 +40,163 @@ Imperative languages
     \item expressions
   \end{itemize}
 
-\vspace{5pt}
+\vpad
 % note this is true in case of purely functional languages only.
 Functional languages
   \begin{itemize}
       \item expressions
   \end{itemize}
 
-\vspace{10pt}
+\vPad
 There is no statement-defined control flow nor global state!
 % say how is the computation performed then...
 \end{frame}
 
-\begin{frame} \frametitle{Basic constructs [1/2]}
-  Functions are first-class citizens.
-  \begin{itemize}
-      \item They can be passed around as arguments,
-      \item partially applied using \textit{curryfication},
-      \item or unnamed, so called \textit{anonymous} or $\lambda$-functions.
-  \end{itemize}
+\defverbatim[colored]\passingFunctions{
+\begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+map :: (a -> b) -> [a] -> [b]
+map = ...
 
-  \vspace{10pt}
-  Curryfication concept
-  % typewriting TODO
-  % animations are welcome
-  % comment on the need of right-associativity and how it works in general.
-  $(a_{1} \times a_{2} \times \ldots \times a_{n}) \to r$
-  vs
-  $a_{1} \to a_{2} \to \ldots \to a_{n} \to r$
+power :: Int -> Int
+power x = x * x
 
-  % for example.
-  \vspace{5pt}
-  % even a constant value is a function.
-  In Haskell there are only single parameter returning functions.
+mapPower :: [Int] -> [Int]
+mapPower xs = map power xs
+\end{lstlisting}
+}
+
+\defverbatim[colored]\curryfication{
+\begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+map :: (a -> b) -> [a] -> [b]
+map = ...
+
+power :: Int -> Int
+power x = x * x
+
+mapPower :: [Int] -> [Int]
+mapPower = map power
+\end{lstlisting}
+}
+
+\defverbatim[colored]\lambdaFunction{
+\begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue}]
+map :: (a -> b) -> [a] -> [b]
+map = ...
+
+mapPower :: [Int] -> [Int]
+mapPower = map (\x -> x * x)
+\end{lstlisting}
+}
+
+\begin{frame} \frametitle{Functions}
+  \framesubtitle{Functions are first-class citizens.}
+
+  \only<1>{They can be passed around as arguments,}
+  \only<2>{be result of other functions (using \textit{curryfication}),}
+  \only<3>{or anonymous, so called $\lambda$-functions.}
+
+  \begin{overlayarea}{\textwidth}{5cm}
+    \begin{block}{}
+      \only<1>{\passingFunctions}
+      \only<2>{\curryfication}
+      % Note: ^ We used eta reduction.
+      % Also tell that we are going to describe curryfication few slides later.
+      \only<3>{\lambdaFunction}
+    \end{block}
+  \end{overlayarea}
+
 \end{frame}
 
-\begin{frame} \frametitle{Basic constructs [2/2]}
+\begin{frame} \frametitle{Functions}
+  \framesubtitle{Curryfication}
 
+  \begin{block}{Concept}
+    % Note: comment on the need of right-associativity and how it works in general.
+    \begin{center}
+      $(a_{1} \times a_{2} \times \ldots \times a_{n}) \to b$ \\ \vPAD
+      vs \\ \vPAD
+      $a_{1} \to (a_{2} \to (\ldots \to (a_{n} \to b)))$
+    \end{center}
+  \end{block}
+
+  \vpad
+  % Note: Even a constant value is a function.
+  There are only single parameter functions returning function.
+
+\end{frame}
+
+
+% TODO: Try to find better example
+% Note: 'person' is free variable in context of 'name' function.
+\defverbatim[colored]\freeVar{
+\begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue},showstringspaces=false,escapechar=@]
+showName :: Person -> Text
+showName person = "Name: " <> name
+  where
+    name = getName @\textcolor{red}{person}
+\end{lstlisting}
+}
+
+\begin{frame} \frametitle{Functions}
+  \framesubtitle{Closures}
+
+  \begin{onlyenv}<1>
+    % Note: This depends on context.
+    In some functional languages, we might encounter free variables.
+
+    \begin{block}{}
+      \freeVar
+    \end{block}
+  \end{onlyenv}
+  \begin{onlyenv}<2>
+    We have to use closures to bind free variables.
+
+    \begin{block}{Closure}
+      \begin{center}
+        $(e, u)$
+      \end{center}
+      where \\
+      \hspace{3pt} e -- argument \\
+      \hspace{3pt} u -- environment
+      \vpad
+    \end{block}
+  \end{onlyenv}
+
+\end{frame}
+
+\begin{frame} \frametitle{Functions}
+  \framesubtitle{Evaluation strategies}
+
+  Functions can be evaluated in 3 different ways.
+  \begin{itemize}
+    \item<2-> Applicative order evaluation (call-by-value)
+    \item<3-> Normal order evaluation (call-by-name)
+    \item<4-> Lazy evaluation (call-by-need)
+  \end{itemize}
+
+  % Note: Should this text really be here?
+  \vpad
+  \begin{block}{}<4>
+  Lazy evaluation combines advantages of \textit{Applicative order evaluation}
+  and \textit{Normal order evaluation}.
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile] \frametitle{Functions}
+  \framesubtitle{Putting all together}
+
+  \begin{block}{Possible data structure}
+    \begin{verbatim}
+union:
+  value          -- Evaluated value
+  structure:     -- Unevaluated value or
+                 -- partially applied function
+    function     -- Pointer to function
+    arguments[]  -- Array of pointers to
+                 -- function arguments
+    \end{verbatim}
+  \end{block}
 \end{frame}
 
 \defverbatim[colored]\fplus{
@@ -76,9 +207,9 @@ plus = (+)
 }
 
 \begin{frame} \frametitle{Type system}
-  Functional languages are mostly strongly, implitly typed.
+  Functional languages are mostly strongly, implicitly typed.
 
-  \vspace{5pt}
+  \vpad
   Each function has type, we can explicitly define the type by providing the
   type signature or let the compiler deduce the type by performing the
   \textit{type inference}.
@@ -108,28 +239,33 @@ length  = foldr (const +1) 0
 
 \defverbatim[colored]\fpolyrankn{
 \begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue}]
-addLength :: (forall c. c -> Int) -> [b]
-  -> [a] -> Int
-addLength f a b = f a + f b
+sumOf2
+  :: (forall c. c -> Int)
+  -> [b] -> [a] -> Int
+sumOf2 f a b = f a + f b
 \end{lstlisting}}
 
-\begin{frame} \frametitle{Polymorphism [1/2]}
-Such type systems often support parametric polymorphism.
-\fpolylist
+\begin{frame} \frametitle{Polymorphism}
+  \onslide<1->
+  Such type systems often support parametric polymorphism.
+  \begin{block}{}
+    \fpolylist
+  \end{block}
 
-Polymorphic parameters could be constrained using type-classes.
-\fpolyfold
+  \onslide<2->
+  Polymorphic parameters could be constrained using type-classes.
+  \begin{block}{}
+    \fpolyfold
+  \end{block}
 \end{frame}
 
-\begin{frame} \frametitle{Polymorphism [2/2]}
+\begin{frame} \frametitle{Polymorphism}
   How is appropriate implementation selected...
 
   Some languages introduced higher rank polymorphism.
-  \fpolyrankn
-\end{frame}
-
-\begin{frame} \frametitle{Thank you slide}
-  Thank you, it was fun on a bun.
+  \begin{block}{}
+    \fpolyrankn
+  \end{block}
 \end{frame}
 
 \end{document}
