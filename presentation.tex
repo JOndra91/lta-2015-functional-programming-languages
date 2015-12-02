@@ -12,7 +12,7 @@
   \usetheme{default}
   \title{Compiler Design}
   \subtitle{Functional Programming Languages}
-  \author[Ondřej Janošík \and Marek Kidoň]{Ondřej Janošík \and Marek Kidoň}
+  \author[Janošík O. \and Kidoň M.]{Ondřej Janošík \and Marek Kidoň}
   \institute{Faculty of Information Technology, Brno University of Technology}
   \date{\today}
 }
@@ -268,22 +268,22 @@ sumOf2 f a b = f a + f b
 \begin{frame} \frametitle{Type inference}
   \framesubtitle{Hindler-Milner-Damas type system}
   Type inference allows us automatically deduce types of \textbf{expressions} in programming languages.
-  
+
   \vPad
   In various functional languages the type inference algorithm is based on the \textit{Hindley-Milner-Damas}
-  type system. 
+  type system.
 
   \vpad
-  It is a system providing general type inference algorithm for family of $\lambda$-calculus languages 
+  It is a system providing general type inference algorithm for family of $\lambda$-calculus languages
   with parametric polymorphism.
 \end{frame}
 
 \begin{frame} \frametitle{Type inference}
   \framesubtitle{The intuition}
   The code itself places constraints on the types. By using these constraints we can determine the type.
-  
+
   \vpad
-  \textbf{Unification} plays significant role since it allows us replace all occourrences of $t1$ with $t2$.
+  \textbf{Unification} plays significant role since it allows us replace all occurrences of $t1$ with $t2$.
 \end{frame}
 
 \defverbatim[colored]\emptyinference{
@@ -316,9 +316,9 @@ mkInt a = if a then 1 else 0
   \only<1>{\textit{mkInt} is a function of 1 argument consisting of the $if$ expression only.}
   \only<2>{First argument of the $if$ expression is bool.}
   \only<3>{Both the second and third argument are of the same type $Int$}
-  \only<4>{Real languages use variations of this algorithm, they would infer 
+  \only<4>{Real languages use variations of this algorithm, they would infer
     something more general.}
-  
+
   \begin{overlayarea}{\textwidth}{5cm}
     \begin{block}{}
       \only<1>{\emptyinference}
