@@ -111,6 +111,7 @@ mapPower = map (\x -> x * x)
   \framesubtitle{Curryfication}
 
   \begin{block}{Concept}
+    % Note: Function projects values from domain to codomain.
     % Note: comment on the need of right-associativity and how it works in general.
     \begin{center}
       $(a_{1} \times a_{2} \times \ldots \times a_{n}) \to b$ \\ \vPAD
@@ -122,6 +123,8 @@ mapPower = map (\x -> x * x)
   \vpad
   % Note: Even a constant value is a function.
   There are only single parameter functions returning function.
+
+  % Example (*3) vs. (\x -> x * 3) on whiteboard.
 
 \end{frame}
 
@@ -237,7 +240,7 @@ length  = foldr (const +1) 0
 \defverbatim[colored]\fpolyrankn{
 \begin{lstlisting}[language=haskell,basicstyle=\ttfamily,keywordstyle=\color{blue}]
 sumOf2
-  :: (forall c. c -> Int)
+  :: (forall c. [c] -> Int)
   -> [b] -> [a] -> Int
 sumOf2 f a b = f a + f b
 \end{lstlisting}}
@@ -257,8 +260,6 @@ sumOf2 f a b = f a + f b
 \end{frame}
 
 \begin{frame} \frametitle{Polymorphism}
-  How is appropriate implementation selected...
-
   Some languages introduced higher rank polymorphism.
   \begin{block}{}
     \fpolyrankn
@@ -283,7 +284,7 @@ sumOf2 f a b = f a + f b
   The code itself places constraints on the types. By using these constraints we can determine the type.
 
   \vpad
-  \textbf{Unification} plays significant role since it allows us replace all occurrences of $t1$ with $t2$.
+  \textbf{Unification} plays significant role since it allows us replace all occurrences of type $t_1$ with type $t_2$.
 \end{frame}
 
 \defverbatim[colored]\emptyinference{
@@ -313,11 +314,13 @@ mkInt a = if a then 1 else 0
 \begin{frame} \frametitle{Type inference}
   \framesubtitle{Example}
 
-  \only<1>{\textit{mkInt} is a function of 1 argument consisting of the $if$ expression only.}
-  \only<2>{First argument of the $if$ expression is bool.}
-  \only<3>{Both the second and third argument are of the same type $Int$}
-  \only<4>{Real languages use variations of this algorithm, they would infer
-    something more general.}
+  \begin{overlayarea}{\textwidth}{1cm}
+    \only<1>{\textit{mkInt} is a function of 1 argument consisting of the $if$ expression only.}
+    \only<2>{First argument of the $if$ expression is bool.}
+    \only<3>{Both the second and third argument are of the same type $Int$}
+    \only<4>{Real languages use variations of this algorithm, they would infer
+      something more general.}
+  \end{overlayarea}
 
   \begin{overlayarea}{\textwidth}{5cm}
     \begin{block}{}
